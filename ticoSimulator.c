@@ -11,7 +11,7 @@ void convertStruct(char ** strings_array, int max_numbers) { //a function to con
     int i;
     for (i = 0; i <= max_numbers; i++) {
         lineArray[i] = malloc(sizeof(unionLine));
-
+        
         char *p;
         if (strings_array[i] != NULL) {
             printf("%d : ", i);
