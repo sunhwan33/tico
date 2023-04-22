@@ -1,0 +1,2 @@
+Write a program that receives 10 integer numbers, and then
+print out one of the numbers that appears most 
