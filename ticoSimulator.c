@@ -7,11 +7,10 @@
 void convertStruct(char ** strings_array, int max_numbers) { //a function to convert element in array, into struct instruct
        	
 	unionLine * lineArray[max_numbers];      
-    char token[20];
+    char token[64];
     int i;
     for (i = 0; i <= max_numbers; i++) {
         lineArray[i] = malloc(sizeof(unionLine));
-        
         char *p;
         if (strings_array[i] != NULL) {
             printf("%d : ", i);
@@ -35,48 +34,49 @@ void convertStruct(char ** strings_array, int max_numbers) { //a function to con
         
         unionLine * l = malloc(sizeof(unionLine));
         instrucToken * k = (instrucToken *) malloc(sizeof(instrucToken));
-        
+
         if (strcmp(token, "READ") == 0) {
             k->instruction = READ;
-            char * instruction = strtok(token, " ");
-            char * address = strtok(NULL, " ");
-            k->md = atoi(address);
+            char * ins = strtok(strings_array[i], " ");
+            char * address_str = strtok(NULL, " ");
+            int address = atoi(address_str);
+            k->md = address;
         } else if (strcmp(token, "WRITE") == 0) {
             k->instruction = WRITE;
-            char * instruction = strtok(token, " ");
+            char * instruction = strtok(strings_array[i], " ");
             char * address = strtok(NULL, " ");
             k->md = atoi(address);
         } else if (strcmp(token, "ASSIGN") == 0) {
             k->instruction = ASSIGN;
-            char * instruction = strtok(token, " ");
+            char * instruction = strtok(strings_array[i], " ");
             char * address = strtok(NULL, " ");
             k->md = atoi(address);
             char * word = strtok(NULL, " ");
             k->c = word;
         } else if (strcmp(token, "MOVE") == 0) {
             k->instruction = MOVE;
-            char * instruction = strtok(token, " ");
+            char * instruction = strtok(strings_array[i], " ");
             char * address = strtok(NULL, " ");
             k->md = atoi(address);
             char * source = strtok(NULL, " ");
             k->ms = atoi(source);
         } else if (strcmp(token, "LOAD") == 0) {
             k->instruction = LOAD;
-            char * instruction = strtok(token, " ");
+            char * instruction = strtok(strings_array[i], " ");
             char * address = strtok(NULL, " ");
             k->md = atoi(address);
             char * source = strtok(NULL, " ");
             k->ms = atoi(source);
         } else if (strcmp(token, "STORE") == 0) {
             k->instruction = STORE;
-            char * instruction = strtok(token, " ");
+            char * instruction = strtok(strings_array[i], " ");
             char * address = strtok(NULL, " ");
             k->md = atoi(address);
             char * source = strtok(NULL, " ");
             k->ms = atoi(source);
         } else if (strcmp(token, "ADD") == 0) {
             k->instruction = ADD;
-            char * instruction = strtok(token, " ");
+            char * instruction = strtok(strings_array[i], " ");
             char * address = strtok(NULL, " ");
             k->md = atoi(address);
             char * first = strtok(NULL, " ");
@@ -85,7 +85,7 @@ void convertStruct(char ** strings_array, int max_numbers) { //a function to con
             k->my = atoi(second);
         } else if (strcmp(token, "MINUS") == 0) {
             k->instruction = MINUS;
-            char * instruction = strtok(token, " ");
+            char * instruction = strtok(strings_array[i], " ");
             char * address = strtok(NULL, " ");
             k->md = atoi(address);
             char * first = strtok(NULL, " ");
@@ -94,7 +94,7 @@ void convertStruct(char ** strings_array, int max_numbers) { //a function to con
             k->my = atoi(second);
         } else if (strcmp(token, "MULT") == 0) {
             k->instruction = MULT;
-            char * instruction = strtok(token, " ");
+            char * instruction = strtok(strings_array[i], " ");
             char * address = strtok(NULL, " ");
             k->md = atoi(address);
             char * first = strtok(NULL, " ");
@@ -103,7 +103,7 @@ void convertStruct(char ** strings_array, int max_numbers) { //a function to con
             k->my = atoi(second);
         } else if (strcmp(token, "MOD") == 0) {
             k->instruction = MOD;
-            char * instruction = strtok(token, " ");
+            char * instruction = strtok(strings_array[i], " ");
             char * address = strtok(NULL, " ");
             k->md = atoi(address);
             char * first = strtok(NULL, " ");
@@ -112,7 +112,7 @@ void convertStruct(char ** strings_array, int max_numbers) { //a function to con
             k->my = atoi(second);
         } else if (strcmp(token, "EQ") == 0) {
             k->instruction = EQ;
-            char * instruction = strtok(token, " ");
+            char * instruction = strtok(strings_array[i], " ");
             char * address = strtok(NULL, " ");
             k->md = atoi(address);
             char * first = strtok(NULL, " ");
@@ -121,7 +121,7 @@ void convertStruct(char ** strings_array, int max_numbers) { //a function to con
             k->my = atoi(second);
         } else if (strcmp(token, "LESS") == 0) {
             k->instruction = LESS;
-            char * instruction = strtok(token, " ");
+            char * instruction = strtok(strings_array[i], " ");
             char * address = strtok(NULL, " ");
             k->md = atoi(address);
             char * first = strtok(NULL, " ");
@@ -130,13 +130,13 @@ void convertStruct(char ** strings_array, int max_numbers) { //a function to con
             k->my = atoi(second);
         } else if (strcmp(token, "JUMP") == 0) {
             k->instruction = JUMP;
-            char * instruction = strtok(token, " ");
+            char * instruction = strtok(strings_array[i], " ");
             char * address = strtok(NULL, " ");
             k->md = atoi(address);
         } else if (strcmp(token, "JUMPIF") == 0) {
             k->instruction = JUMPIF;
             k->instruction = JUMP;
-            char * instruction = strtok(token, " ");
+            char * instruction = strtok(strings_array[i], " ");
             char * address = strtok(NULL, " ");
             k->md = atoi(address);
             char * source = strtok(NULL, " ");
@@ -144,11 +144,12 @@ void convertStruct(char ** strings_array, int max_numbers) { //a function to con
         } else if (strcmp(token, "TERM") == 0) {
             k->instruction = TERM;
         } else {
+            printf("here");
             k->instruction = TEXT;
             k->c = value;
             strcpy(l->value, value);
         }
-
+        
         l->instructLine = k;
         lineArray[i] = l;
     }
