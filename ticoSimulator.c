@@ -14,11 +14,11 @@ void convertStruct(char **strings_array, int max_numbers)
     {
         lineArray[i] = malloc(sizeof(unionLine));
         char *p;
-        printf("%d %s\n", i, strings_array[i]); // delete it later, just to check array element by index
+        //printf("%d %s\n", i, strings_array[i]); // delete it later, just to check array element by index
         if (strings_array[i] != NULL)
         {
-            // printf("%d : ", i);
-            // printf("%s\n", strings_array[i]);
+            printf("%d : ", i);
+            printf("%s\n", strings_array[i]);
 
             p = strchr(strings_array[i], ' ');
             if (p != NULL)
@@ -182,7 +182,7 @@ void convertStruct(char **strings_array, int max_numbers)
         else
         {
             if (token[0] == '\0')
-            { // delete later, to check what code lines are executed, and where bug is occurred
+            {
                 k->c = "null";
                 l->value = "null";
             }
@@ -197,6 +197,8 @@ void convertStruct(char **strings_array, int max_numbers)
         l->instructLine = k;
         lineArray[i] = l;
     }
+
+    printf("out of loop\n");  //not going out of loop, stuck at the last index
 
     if (lineArray != NULL)
     {
@@ -218,6 +220,73 @@ void convertStruct(char **strings_array, int max_numbers)
 
 void cursor(unionLine **lineArray)
 {
+    int cc = 0;
+    while(lineArray[cc] != NULL) {
+        switch (lineArray[cc]->instructLine->instruction)
+        {
+        case READ:
+            /* code */
+            cc++;
+            continue;
+        case WRITE:
+            /* code */
+            cc++;
+            continue;
+        case ASSIGN:
+            /* code */
+            cc++;
+            continue;
+        case MOVE:
+            /* code */
+            cc++;
+            continue;
+        case LOAD:
+            /* code */
+            cc++;
+            continue;
+        case STORE:
+            /* code */
+            cc++;
+            continue;
+        case ADD:
+            /* code */
+            cc++;
+            continue;
+        case MINUS:
+            /* code */
+            cc++;
+            continue;
+        case MULT:
+            /* code */
+            cc++;
+            continue;
+        case MOD:
+            /* code */
+            cc++;
+            continue;
+        case EQ:
+            /* code */
+            cc++;
+            continue;
+        case LESS:
+            /* code */
+            cc++;
+            continue;
+        case JUMP:
+            /* code */
+            cc = lineArray[cc]->instructLine->md;
+            continue;
+        case JUMPIF:
+            /* code */
+            continue;
+        case TERM:
+            exit(EXIT_SUCCESS);
+            continue;
+        default:
+            cc++;
+            continue;
+        }
+    }
 }
 
 void welcome()
