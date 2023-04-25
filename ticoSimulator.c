@@ -12,9 +12,10 @@ void convertStruct(char ** strings_array, int max_numbers) { //a function to con
     for (i = 0; i <= max_numbers; i++) {
         lineArray[i] = malloc(sizeof(unionLine));
         char *p;
+        printf("%d %s\n", i, strings_array[i]);  //delete it later, just to check array element by index 
         if (strings_array[i] != NULL) {
-            printf("%d : ", i);
-            printf("%s\n", strings_array[i]);
+            //printf("%d : ", i);
+            //printf("%s\n", strings_array[i]);
  
 
             p = strchr(strings_array[i], ' ');
@@ -27,7 +28,7 @@ void convertStruct(char ** strings_array, int max_numbers) { //a function to con
                     strcpy(token, strings_array[i]);
                 }
         } else if (*strings_array[i] == '\0') {
-            strcpy(token, " ");
+            strcpy(token, "\0");
         }
 
         char * value = strings_array[i];
@@ -144,10 +145,16 @@ void convertStruct(char ** strings_array, int max_numbers) { //a function to con
         } else if (strcmp(token, "TERM") == 0) {
             k->instruction = TERM;
         } else {
-            printf("here");
-            k->instruction = TEXT;
-            k->c = value;
-            strcpy(l->value, value);
+            if(value == NULL || value[0] == '\0') {
+                printf("here");   //delete later, to check what code lines are executed, and where bug is occurred
+                k->c = "\0";
+                l->value = "null";
+            }
+            else {
+                k->instruction = TEXT;
+                k->c = value;
+                l->value = value;
+            }
         }
         
         l->instructLine = k;
