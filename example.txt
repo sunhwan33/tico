@@ -9,7 +9,7 @@
 8: MINUS 21 21 20
 9: JUMPIF 1 20
 10: WRITE 24
-11: TERM
+11: TERM 
 20: “1”
 21:  
 22: “0”
