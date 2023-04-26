@@ -2,8 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include "sunticoSimulator.h"
 
 void convertStruct(char ** strings_array, int max_number);
+void runinstruction(int max_number);
 int main(int argc, char **argv) {
     FILE *fp;
     char *line = NULL;
@@ -60,6 +62,7 @@ fclose(fp);
 convertStruct(strings_array, max_number);
 free(strings_array);
 
+//runinstruction(max_number);
 
 return 0;
 }

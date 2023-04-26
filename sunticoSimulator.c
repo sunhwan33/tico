@@ -3,7 +3,8 @@
 #include <string.h>
 #include <stdbool.h>
 #include <ctype.h>
-enum instructions {
+#include "sunticoSimulator.h"
+/*enum instructions {
     READ, //0
     WRITE,  //1
     ASSIGN,//2
@@ -20,8 +21,9 @@ enum instructions {
     JUMPIF,//13
     TERM,//14
     TEXT,//15
-};
+}; */
 
+int val_check[256]={-1}; // 만약 no address면 -1, empty value면 0, number value면 1 , instruction이면 2 
 unsigned char get_op(char * op){
     
     if (strcmp(op, "READ") == 0) {
@@ -58,20 +60,6 @@ unsigned char get_op(char * op){
         return TEXT;
     }
 }
-struct Instruction{ 
-  enum instructions operator;
-  //unsigned char operator;
-  unsigned char operand1;  
-  unsigned char operand2;  
-  unsigned char operand3;  
-};
-
-union { 
-  unsigned char num; 
-  struct Instruction inst; 
-} Value[256];
-
-
 
 bool is_all_whitespace(const char* str) {
     while (*str) {  // 문자열 끝에 도달할 때까지 반복
@@ -115,9 +103,9 @@ void convertStruct(char ** strings_array, int max_numbers) { //a function to con
             
             printf("%d : ", i);
             printf("%s\n", strings_array[i]);
-           
-            p = strtok(strings_array[i], " ");
-            printf("%s\n", p);
+            printf("len : %d\n", strlen(strings_array[i]));
+            p = strtok(strings_array[i], " "); 
+            printf("%s\n", p); //-> ex. READ    "1"  WRITE
             
             
             /*
@@ -126,6 +114,13 @@ void convertStruct(char ** strings_array, int max_numbers) { //a function to con
             if value is number, (not instructions). below code is not runned and only the value will be saved at Value[i].num
             
             */
+            if(p[0]=='"') { // value is number
+                // p = ;
+                
+                Value[i].num == atoi(p); //"1" -> 1
+                printf("num : %d\n", Value[i].num);   //TODO remove ""
+            }
+
             memcpy(token, p, 6);
             
             if(token[0]=='T' && strlen(token)==5) token[strlen(p)-1]='\0'; // if TERM && len = 5 error //it's only for solving error in example.txt
@@ -162,7 +157,7 @@ void convertStruct(char ** strings_array, int max_numbers) { //a function to con
         }
         else { // strings_array = space 
             //printf("%d : empty space\n" , i);
-            
+                
                 strcpy(token, " ");
                 printf("token : %s\n", token);
             
@@ -170,6 +165,24 @@ void convertStruct(char ** strings_array, int max_numbers) { //a function to con
     
 }
 
+/*
+1. address하나씩 실행. for i <=max_numbers
+    1-1. value가 instruction이면 val_check ==2
+        1-1-1. 각 instruction마다의 실행 나누기. ex. READ (0) -> receive input
+        1-1-2. memory값 변경하기.
+        1-1-3. invalid instruction -> perror, terminate program
+    1-2. value가 number이면 // val_check == 1
+    1-3. value가 없으면 // if valcheck == 0
+    1-4. address도 배정된 것이 없으면) // if val_check == -1
+2. 
+*/
+//void runinstruction(int max_number){
+
+    //for (int i =0 ; i<=max_numbers ; i++){
+        //if(is_all_whitespace())
+        //if(Value[i].inst.)
+    //}
+//}
 /*for(int i=0;i<=max_numbers;i++){
     printf("%d : %s\n", i, Value[i].num);
     printf("%d : %u\n", i, Value[i].inst.operator);

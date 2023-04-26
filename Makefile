@@ -1,9 +1,9 @@
 CC = gcc
-TARGET = tico
-OBJECTS = ticoSimulator.c tico.c
+TARGET = suntico
+OBJECTS = sunticoSimulator.c suntico.c
 
 .PHONY : all
-all : tico
+all : suntico
 
 tico :
 CFLAGS = -Wall -W
