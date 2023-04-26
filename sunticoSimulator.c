@@ -179,6 +179,7 @@ void convertStruct(char ** strings_array, int max_numbers) { //a function to con
 //void runinstruction(int max_number){
 
     //for (int i =0 ; i<=max_numbers ; i++){
+        
         //if(is_all_whitespace())
         //if(Value[i].inst.)
     //}
@@ -191,3 +192,17 @@ void convertStruct(char ** strings_array, int max_numbers) { //a function to con
     printf("%d : %u\n", i, Value[i].inst.operand3);
 }*/
 }
+
+/*if empty space
+        else if number value
+        else if istruction Value
+            if READ scanf()
+            if WIRTe
+            case READ:
+                scanf();
+            case JUMPIF:
+                if(unionArray[i]->value != 0) {
+                    //to something
+                }
+            
+        else if no adress*/
