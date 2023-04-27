@@ -1,0 +1,16 @@
+GCD:
+In this program, we use the Euclidean algorithm to find the greatest common divisor. We start by reading in the two numbers to find the GCD of (at memory addresses 0 and 1). Then, we use the LESS instruction to check if the second number is less than the first number. If it is, we swap the two numbers so that the larger number is in address 1 and the smaller number is in address 0.
+Next, we repeatedly subtract the smaller number from the larger number (using the MINUS instruction) until the two numbers are equal. We store the result of each subtraction in memory address 3. When the two numbers are equal, we output their value (using the WRITE instruction) and terminate the program.
+
+average:
+This program reads in 5 numbers and stores them in addresses 0 to 4. It then adds them all together and stores the result in address 5. Next, it multiplies the sum by 10, and stores the result in address 15. This is because we will later use division by 10 to round up the average. The program then takes the modulus of the sum and 10, and stores the result in address 16. If the modulus is greater than or equal to 5 (i.e., the first decimal place is 5 or more), the program adds 1
+
+convert:
+In this updated program, lines 0 to 7 are used to receive 8 binary numbers from the user. Lines 8 to 19 perform the conversion to decimal by multiplying each binary digit by its corresponding power of 2 and adding the results. Line 20 outputs the final decimal number, and line 21 terminates the program.
+
+mode:
+The program reads in 10 integers and stores them in memory locations 0-9. It then uses memory locations 10-19 to keep count of the frequency of each integer. The program initializes all the count memory locations to 0 in lines 10-19.
+The program then iterates over the 10 input integers using a loop starting at line 20 and ending at line 29. It checks the count of the integer stored at the current iteration index using the memory location corresponding to the integer value. If the count is zero, it initializes the count to 1. If the count is not zero, it increments the count by 1.
+Once all the integers have been counted, the program finds the integer with the highest count by iterating over the count memory locations using a loop starting at line 30 
+and ending at line 36. It keeps track of the index with the highest count and the value of the count at that index. Once the loop is done, it writes out the integer value at the index with the highest count in line 37.
+Note that if there are multiple integers with the same highest count, this program will only output one of them.
