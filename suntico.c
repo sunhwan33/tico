@@ -62,7 +62,7 @@ fclose(fp);
 convertStruct(strings_array, max_number);
 free(strings_array);
 
-//runinstruction(max_number);
+runinstruction(max_number);
 
 return 0;
 }
