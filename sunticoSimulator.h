@@ -17,7 +17,7 @@ enum instructions {
     JUMP,//12
     JUMPIF,//13
     TERM,//14
-    TEXT,//15
+    NOINST//15
 };
 
 struct Instruction{ 
@@ -29,9 +29,11 @@ struct Instruction{
 };
 
 union { 
-  unsigned char num; 
+  int8_t num; 
   struct Instruction inst; 
 } Value[256];
 
 void convertStruct(char ** strings_array, int max_number);
 void runinstruction(int max_number);
+
+char *extractString( char* str) ;

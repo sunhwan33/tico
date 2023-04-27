@@ -20,7 +20,7 @@
     JUMP,//12
     JUMPIF,//13
     TERM,//14
-    
+    NOINST,//15
 }; */
 void runinstruction(int max_number);
 int val_check[256]={-1}; // 만약 no address면 -1, empty value면 0, number value면 1 , instruction이면 2 
@@ -56,9 +56,11 @@ unsigned char get_op(char * op){
         return JUMPIF;
     } else if (strcmp(op, "TERM") == 0) {
         return TERM;
-    } else if (strcmp(op, "TEXT") == 0) {
-        return TEXT;
+    } else {
+        return NOINST;
     }
+    
+
 }
 
 bool is_all_whitespace(const char* str) {
@@ -69,6 +71,15 @@ bool is_all_whitespace(const char* str) {
         str++;  // 다음 문자로 이동
     }
     return true;  // 문자열 전체가 공백으로 구성되어 있음
+}
+
+char *extractString( char* str) {
+    char* newStr = malloc(sizeof(char) * strlen(str)); // allocate memory for new string
+    int startIndex = strchr((char*)str, '\"') - (char*)str + 1; // find index of first quote and add 1 to skip it
+    int endIndex = strchr((char*)(str + startIndex), '\"') - (char*)str; // find index of second quote
+    strncpy((char*)newStr, (char*)(str + startIndex), endIndex - startIndex); // copy substring between quotes to new string
+    newStr[endIndex - startIndex] = '\0'; // null-terminate new string
+    return newStr;
 }
 /*
 1. strings_array르ㄹ 읽어오기
@@ -116,10 +127,13 @@ void convertStruct(char ** strings_array, int max_numbers) { //a function to con
             
             */
             if(p[0]=='"') { // value is number
-                // p = ;
+               
+                char * only_num = extractString(p);
+                //printf("only num : %s\n", only_num);
+                Value[i].num = atoi(only_num); //"1" -> 1
                 val_check[i] = 1;
-                Value[i].num == atoi(p); //"1" -> 1
-                printf("num : %d\n", Value[i].num);   //TODO remove "" by azat
+                free(only_num);
+                printf("num : %d\n", Value[i].num);   
             }
             
             else{
@@ -148,8 +162,14 @@ void convertStruct(char ** strings_array, int max_numbers) { //a function to con
                         Value[i].inst.operand1=atoi(p);
                         printf("%d's op1 : %u\n",i, Value[i].inst.operand1);
                     } else if(count==2) {
-                        //if(ASSIGN ) remove "" !!!!!!!!!!!!!
-                        Value[i].inst.operand2=atoi(p);
+                        if(Value[i].inst.operator== 2) {
+                            char * only_num = extractString(p); //"" !!!!!!!!!!!!!
+
+                            Value[i].inst.operand2=atoi(only_num);
+                            free(only_num);
+                        }
+                        else 
+                            Value[i].inst.operand2=atoi(p);
                         printf("%d's op2 : %u\n",i, Value[i].inst.operand2);
                     } else if(count==3) {
                         Value[i].inst.operand3=atoi(p);
@@ -209,7 +229,7 @@ void runinstruction(int max_numbers){
     
    char v_num[3];
    int m, md, ms,mx,my;
-   unsigned char c;
+   int8_t c;
     for (int i =0 ; i<=max_numbers ; i++){
         if(val_check[i] ==2 ){ // if value is instruction
             printf("^^^^^^^^\n");
@@ -226,78 +246,85 @@ void runinstruction(int max_numbers){
                 //printf("m : %d\n", m);
                 Value[m].num = atoi(v_num);
                 val_check[m] = 1;
-                printf("after val[0] : %u\n", Value[0].num);
+                //printf("after val[m] : %u\n", Value[0].num);
                 break;
-            case 1:// not yet.//after remove"" function !!!!!!! WRITE[m]: print the number at [m] 
+            case 1://OK . WRITE[m]: print the number at [m] 
                 /* code */
                 m = Value[i].inst.operand1;
-                printf("%u\n", Value[m].num);
+                printf("%d\n", Value[m].num);
                 
                 break;
-            case 2://not yet.//after remove"" function !!!!!!! ASSIGN [m] "c": put a number c to [m] 
+            case 2://OK. ASSIGN [m] "c": put a number c to [m] 
                 /* code */
                 c = Value[i].inst.operand2;
                 m = Value[i].inst.operand1;
                 Value[m].num = c;
-
+                val_check[m] = 1;
+                
                 break;
-            case 3: //not yet.//after remove"" function !!!!!!! MOVE [md] [ms]: put the value at [ms] to [md] // move 24 20 
+            case 3: //OK. MOVE [md] [ms]: put the value at [ms] to [md] // move 24 20 
                 /* code */
                 md = Value[i].inst.operand1; //24
                 ms = Value[i].inst.operand2; //20
                 Value[md].num = Value[ms].num;
+                val_check[md] = 1;
                 
                 break;
             
-            case 4: //not yet.//after remove"" function !!!!!!! LOAD [md] [ms]: read an address stored at [ms], and put the value at the address to [md] 
+            case 4: //OK. LOAD [md] [ms]: read an address stored at [ms], and put the value at the address to [md] 
                 /* code */
                 md = Value[i].inst.operand1; //24
                 ms = Value[i].inst.operand2; //20
                 c = Value[ms].num;
                 Value[md].num = c;
                 val_check[md]=1; // value is number
+                
                 break;
-            case 5: //not yet.//after remove"" function !!!!!!! STORE [md] [ms]: read an address stored at [md], and put the value at [ms] to the address
+            case 5: //OK. STORE [md] [ms]: read an address stored at [md], and put the value at [ms] to the address
                 /* code */
                 md = Value[i].inst.operand1; //24
                 ms = Value[i].inst.operand2; //20
                 c = Value[md].num;
                 Value[ms].num = c;
                 val_check[ms]=1; // value is number
+                
                 break;
-            case 6: //not yet.//after remove"" function !!!!!!! ADD [md] [mx] [my]: add the values at [mx] and [my], and put the result to [md]
+            case 6: //OK. ADD [md] [mx] [my]: add the values at [mx] and [my], and put the result to [md]
                 /* code */
                 md = Value[i].inst.operand1; 
                 mx = Value[i].inst.operand2; 
                 my = Value[i].inst.operand3; 
-                Value[md].num = mx + my;
+                Value[md].num = Value[mx].num + Value[my].num;
                 val_check[md]=1; // value is number
+                //printf("%d\n", Value[md].num);
                 break;
-            case 7: //not yet.//after remove"" function !!!!!!! MINUS [md] [mx] [my]: subtract the value at [my] from the value at [mx], and put the result to [md]
+            case 7: //OK. MINUS [md] [mx] [my]: subtract the value at [my] from the value at [mx], and put the result to [md]
                 /* code */
                 md = Value[i].inst.operand1; 
                 mx = Value[i].inst.operand2; 
                 my = Value[i].inst.operand3; 
-                Value[md].num = mx - my;
+                Value[md].num = Value[mx].num - Value[my].num;
                 val_check[md]=1; // value is number
+                //printf("%d\n", Value[md].num);
                break;
-            case 8://MULT [md] [mx] [my]: multiply the value at [mx] by the value at [my] and put the result to [md]
+            case 8://OK. MULT [md] [mx] [my]: multiply the value at [mx] by the value at [my] and put the result to [md]
                 /* code */ 
                 md = Value[i].inst.operand1; 
                 mx = Value[i].inst.operand2; 
                 my = Value[i].inst.operand3;
-                Value[md].num = mx * my; 
+                Value[md].num = Value[mx].num * Value[my].num;
                 val_check[md]=1; // value is number
+                
                 break;
-            case 9: //not yet.//after remove"" function !!!!!!! MOD [md] [mx] [my]: Put the value at [mx] modulus the value at [my] to [md]
+            case 9: //OK. MOD [md] [mx] [my]: Put the value at [mx] modulus the value at [my] to [md]
                 /* code */
                 md = Value[i].inst.operand1; 
                 mx = Value[i].inst.operand2; 
                 my = Value[i].inst.operand3;
-                Value[md].num = mx % my;
+                Value[md].num = Value[mx].num % Value[my].num;
                 val_check[md]=1; // value is number
                 break;
-            case 10: //not yet.//after remove"" function !!!!!!! EQ [md] [mx] [my]: Put 1 to [md] if two values at [mx] and [my] are the same. Otherwise, put 0 to [md]
+            case 10: //OK. EQ [md] [mx] [my]: Put 1 to [md] if two values at [mx] and [my] are the same. Otherwise, put 0 to [md]
                 /* code */
                 md = Value[i].inst.operand1; 
                 mx = Value[i].inst.operand2; 
@@ -308,8 +335,9 @@ void runinstruction(int max_numbers){
                     Value[md].num = 0;
 
                 val_check[md]=1; // value is number
+                printf("%d\n", Value[md].num);
                 break;
-            case 11: //not yet.//after remove"" function !!!!!!! LESS [md] [mx] [my]: Put 1 to [md] if the value at [mx] is less than the value at [my]. Otherwise, put 0 to [md]
+            case 11: //OK.  LESS [md] [mx] [my]: Put 1 to [md] if the value at [mx] is less than the value at [my]. Otherwise, put 0 to [md]
                 /* code */
                 md = Value[i].inst.operand1; 
                 mx = Value[i].inst.operand2; 
@@ -319,17 +347,19 @@ void runinstruction(int max_numbers){
                 else 
                     Value[md].num = 0;
                 val_check[md]=1; // value is number
+                printf("%d\n", Value[md].num); //how 대소비교 음수양수
                 break;
-            case 12://ok. JUMP [m]: execute the instruction at [m] for the next turn
+            case 12://OK. JUMP [m]: execute the instruction at [m] for the next turn
                 /* code */
                 m = Value[i].inst.operand1;
                 i = m-1;
                // cc = lineArray[cc]->instructLine->md;
                 break;
-            case 13: //not yet.//after remove"" function !!!!!!! JUMPIF [m] [c]: execute the instruction at [m] for the next turn, if the value at [c] is not zero
+            case 13: //OK. JUMPIF [m][c]: execute the instruction at [m] for the next turn, if the value at [c] is not zero
                 /* code */
                 m = Value[i].inst.operand1;
-                c =  Value[i].inst.operand2;
+                my =  Value[i].inst.operand2;
+                c = Value[my].num;
                 if(c!=0){
                     i = m-1;
                 }
@@ -337,7 +367,11 @@ void runinstruction(int max_numbers){
             case 14://TERM: terminate the program execution
                 exit(EXIT_SUCCESS);
                 break;
-
+            case 15: //invalid instruction
+                perror("Invalid Instruction");
+                exit(1);
+                break;
+            
             default:
                 //cc++;
                 break;
