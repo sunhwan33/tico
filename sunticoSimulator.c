@@ -114,19 +114,14 @@ void convertStruct(char ** strings_array, int max_numbers) { //a function to con
         if (!is_all_whitespace(strings_array[i])) { // is_all_whitespace == false
             
             
-            printf("%d : ", i);
-            printf("%s\n", strings_array[i]);
-            printf("len : %d\n", strlen(strings_array[i]));
+            //printf("%d : ", i);
+            //printf("%s\n", strings_array[i]);
+            //printf("len : %d\n", strlen(strings_array[i]));
             p = strtok(strings_array[i], " "); 
-            printf("%s\n", p); //-> ex. READ    "1"  WRITE
+            //printf("%s\n", p); //-> ex. READ    "1"  WRITE
             
             
-            /*
-            we should make function to separate number value.
-            now this code isn't , so segmentation fault appears
-            if value is number, (not instructions). below code is not runned and only the value will be saved at Value[i].num
             
-            */
             if(p[0]=='"') { // value is number
                
                 char * only_num = extractString(p);
@@ -134,7 +129,7 @@ void convertStruct(char ** strings_array, int max_numbers) { //a function to con
                 Value[i].num = atoi(only_num); //"1" -> 1
                 val_check[i] = 1;
                 free(only_num);
-                printf("num : %d\n", Value[i].num);   
+               // printf("num : %d\n", Value[i].num);   
             }
             
             else{
@@ -147,7 +142,7 @@ void convertStruct(char ** strings_array, int max_numbers) { //a function to con
                 //printf("token : %s\n", token);
                 //printf("len_token : %d\n",strlen(token));
                 Value[i].inst.operator= get_op(token);
-                //printf("%d's OP : %u\n", i, Value[i].inst.operator );
+                printf("%d's OP : %u\n", i, Value[i].inst.operator );
                 int count=1; // operand 1 or 2 or 3
                 
                 while(p != NULL ) {
@@ -163,7 +158,7 @@ void convertStruct(char ** strings_array, int max_numbers) { //a function to con
                         Value[i].inst.operand1=atoi(p);
                         printf("%d's op1 : %u\n",i, Value[i].inst.operand1);
                     } else if(count==2) {
-                        if(Value[i].inst.operator== 2) {
+                        if(Value[i].inst.operator== 2) { // if ASSIGN
                             char * only_num = extractString(p); //"" !!!!!!!!!!!!!
 
                             Value[i].inst.operand2=atoi(only_num);
@@ -184,7 +179,7 @@ void convertStruct(char ** strings_array, int max_numbers) { //a function to con
             //printf("%d : empty space\n" , i);
                 val_check[i] = 0;
                 strcpy(token, " ");
-                printf("token : %s\n", token);
+                //printf("token : %s\n", token);
             
         }
     
@@ -233,15 +228,15 @@ void runinstruction(int max_numbers){
    int8_t c;
     for (int i =0 ; i<=max_numbers ; i++){
         if(val_check[i] ==2 ){ // if value is instruction
-            printf("^^^^^^^^\n");
+            //printf("^^^^^^^^\n");
             switch (Value[i].inst.operator)
             {
             case 0://OK . READ [m] :receive a number from user and store it [m] (i.e., on address m)
                 /* code */
                 //printf("before val[0] : %u\n", Value[0].num);
                 //scanf("%s", v_num);
-                gets(v_num);
-
+                //gets(v_num);
+                scanf("%s", v_num);
                 //printf("v_num : %s\n",v_num);
                 m = Value[i].inst.operand1;
                 //printf("m : %d\n", m);
@@ -252,7 +247,8 @@ void runinstruction(int max_numbers){
             case 1://OK . WRITE[m]: print the number at [m] 
                 /* code */
                 m = Value[i].inst.operand1;
-                printf("%d\n", Value[m].num);
+                
+                printf("WRITE : %d\n", Value[m].num);
                 
                 break;
             case 2://OK. ASSIGN [m] "c": put a number c to [m] 
@@ -336,7 +332,7 @@ void runinstruction(int max_numbers){
                     Value[md].num = 0;
 
                 val_check[md]=1; // value is number
-                printf("%d\n", Value[md].num);
+                //printf("%d\n", Value[md].num);
                 break;
             case 11: //OK.  LESS [md] [mx] [my]: Put 1 to [md] if the value at [mx] is less than the value at [my]. Otherwise, put 0 to [md]
                 /* code */
@@ -348,7 +344,7 @@ void runinstruction(int max_numbers){
                 else 
                     Value[md].num = 0;
                 val_check[md]=1; // value is number
-                printf("%d\n", Value[md].num); //how 대소비교 음수양수
+                //printf("%d\n", Value[md].num); //how 대소비교 음수양수
                 break;
             case 12://OK. JUMP [m]: execute the instruction at [m] for the next turn
                 /* code */
@@ -373,12 +369,13 @@ void runinstruction(int max_numbers){
                 exit(1);
                 break;
             
-            default:
+            /*default:
                 //cc++;
-                break;
+                
+                break;*/
             }
         }
-        else if (val_check == 1) { // if value is number
+        /*else if (val_check == 1) { // if value is number
             continue;
         }
         else if (val_check == 0) { // if no value
@@ -386,9 +383,10 @@ void runinstruction(int max_numbers){
         }
         else if (val_check == -1){ //  if no address
             continue;
-        }
+        }*/
        
     }
+    
 }
 /*if empty space
         else if number value
