@@ -1,5 +1,5 @@
 #include <stdio.h>
-
+#include <stdint.h>
 
 enum instructions {
     READ, //0
