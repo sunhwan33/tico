@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <ctype.h>
+#include <stdint.h>
 #include "sunticoSimulator.h"
 /*enum instructions {
     READ, //0
