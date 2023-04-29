@@ -210,7 +210,7 @@ void runinstruction(int max_numbers)
 
                 m = Value[i].inst.operand1;
 
-                printf("%d\n", Value[m].num);
+                printf("Result : %d\n", Value[m].num);
 
                 break;
             case 2: // OK. ASSIGN [m] "c": put a number c to [m]
