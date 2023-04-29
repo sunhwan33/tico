@@ -22,9 +22,9 @@ enum instructions {
 
 struct Instruction{ 
   enum instructions operator;
-  //unsigned char operator;
-  unsigned char operand1;  //md
-  unsigned char operand2;  //ms
+  
+  unsigned char operand1; 
+  unsigned char operand2;  
   unsigned char operand3;  
 };
 

@@ -13,9 +13,7 @@ int main(int argc, char **argv) {
     ssize_t read;
     char **strings_array=NULL;
     int max_number = -1;
-    
-    // initialize the array to all zeros
-    //strings_array = calloc(1, sizeof(char *));
+
 
     fp = fopen(argv[1], "r");
     if (fp == NULL) {
@@ -27,7 +25,6 @@ int main(int argc, char **argv) {
         int address_number;
         char string[100];
         int result = sscanf(line, "%d : %[^\n]", &address_number, string); 
-        //printf("%d : %d\n", address_number, result);
        if (result == 2) {  // number & string are exist.
             // allocate memory for the string in the array
             strings_array = realloc(strings_array, (address_number + 1) * sizeof(char *));
@@ -51,10 +48,7 @@ int main(int argc, char **argv) {
                 max_number = address_number;
             }
         }
-        //printf("txt str : %s\n", string);
-        //printf("txt num : %d\n", address_number);
-        //printf("address arr%p\n", strings_array);
-        printf("str arr : %s\n\n", strings_array[address_number]);
+       
 
 
 }
