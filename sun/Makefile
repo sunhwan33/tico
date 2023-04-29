@@ -11,33 +11,33 @@ $(TARGET) : $(OBJECTS)
 	$(CC) $(CFLAGS) -o $@ $^
 	clear
 
-convert :
-CFLAGS = -W -Wall
-$(TARGET) : $(OBJECTS)
-	$(CC) $(CFLAGS) -o $@ $^
-	clear
-	./tico convert.txt
+# convert :
+# CFLAGS = -W -Wall
+# $(TARGET) : $(OBJECTS)
+# 	$(CC) $(CFLAGS) -o $@ $^
+# 	clear
+# 	./tico convert.txt
 
-average : 
-CFLAGS = -W -Wall
-$(TARGET) : $(OBJECTS)
-	$(CC) $(CFLAGS) -o $@ $^
-	clear
-	./tico average.txt
+# average : 
+# CFLAGS = -W -Wall
+# $(TARGET) : $(OBJECTS)
+# 	$(CC) $(CFLAGS) -o $@ $^
+# 	clear
+# 	./tico average.txt
 
-mode : 
-CFLAGS = -W -Wall
-$(TARGET) : $(OBJECTS)
-	$(CC) $(CFLAGS) -o $@ $^
-	clear
-	./tico mode.txt
+# mode : 
+# CFLAGS = -W -Wall
+# $(TARGET) : $(OBJECTS)
+# 	$(CC) $(CFLAGS) -o $@ $^
+# 	clear
+# 	./tico mode.txt
 
-GCD : 
-CFLAGS = -W -Wall
-$(TARGET) : $(OBJECTS)
-	$(CC) $(CFLAGS) -o $@ $^
-	clear
-	./tico GCD.txt
+# GCD : 
+# CFLAGS = -W -Wall
+# $(TARGET) : $(OBJECTS)
+# 	$(CC) $(CFLAGS) -o $@ $^
+# 	clear
+# 	./tico GCD.txt
 
 .PHONY: clean
 clean: 
